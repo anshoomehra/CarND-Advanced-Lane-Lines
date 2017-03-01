@@ -1,36 +1,197 @@
-## Advanced Lane Finding
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
+**Advance Lane Detection**
+
+**Objective:**
+
+In this project, my goal is to write a software pipeline to identify the
+lane boundaries in a video. To achieve the same, below is high level
+outline of steps which are required to be performed.
+
+1.  Compute the camera calibration matrix and distortion coefficients
+    given a set of chessboard images.
+
+2.  Apply a distortion correction to raw images. 
+
+3.  Use color transforms, gradients (Sobel, Magnitude, Directional), to
+    create a threshold binary image. 
+
+4.  Apply a perspective transform to rectify binary image ("birds-eye
+    view").
+
+5.  Detect lane pixels and fit to find the lane boundary. 
+
+6.  Determine the curvature of the lane and vehicle position with
+    respect to center. 
+
+7.  Warp the detected lane boundaries back onto the original image.
+
+8.   Output visual display of the lane boundaries and numerical
+    estimation of lane curvature and vehicle position.
+
+9.  Test Pipeline on Test Images & Videos.
+
+**Detailed Solution:**
+
+> I wrote all the steps articulated below as helper functions in Cell
+> 58, code file “Advance Lane Detection.ipynb”. Post defining helper
+> functions, I created pipeline which will be further used for
+> processing videos and test images.
+
+**1. Camera Calibration: **
+
+> The code for this step is contained in the Cell 1 & 2 of code file
+> “Advance Lane Detection.ipynb”
+>
+> I start by preparing "object points", which will be the (x, y, z)
+> coordinates of the chessboard corners in the world. Here I am assuming
+> the chessboard is fixed on the (x, y) plane at z=0, such that the
+> object points are the same for each calibration image. Thus, objp is
+> just a replicated array of coordinates, and objpoints will be appended
+> with a copy of it every time I successfully detect all chessboard
+> corners in a test image.
+>
+> imgpoints will be appended with the (x, y) pixel position of each of
+> the corners in the image plane with each successful chessboard
+> detection.
+>
+> Sample of corner’s detection as demonstrated below:
+> ![output\_images/output\_5\_0.png](media/image1.png){width="6.4944444444444445in"
+> height="3.2694444444444444in"}![](media/image2.png){width="6.847222222222222in"
+> height="1.3888888888888888e-2in"}
+
+**2. Distortion Correction: **
+
+I then used the output objpoints and imgpoints to compute the camera
+calibration and distortion coefficients using the cv2.calibrateCamera()
+function. I applied this distortion correction to the test image using
+the cv2.undistort() function and obtained this result:
+
+This result is show in Cell \#: 64
+
+![output\_images/output\_11\_1.png](media/image3.png){width="6.4944444444444445in"
+height="1.8763888888888889in"}
+
+**3. Gradient (Sobel, Magnitude & Directional): **
+
+Instead of applying Canny Edge detection, we will rather make use of
+Sobel Function to be applied separately on X, Y Orientations, further
+apply Magnitude, Directional Gradients & Color transformations all
+blended to yield better lane detection.
+
+Following OpenCV, Numpy Libraries were to used:
+
+**Sobel** -&gt; cv2.Sobel()
+
+**Magnitude** -&gt; abs\_sobelxy=√​(sobel​x​​)​2​​+(sobel​y​​)​2​​​​​
+(Achieved with numpy)
+
+**Directional** -&gt; arctan(sobel​y​​/sobel​x​​) (Achieved with numpy)
+
+**Color Transform** -&gt; cv2.cvtColor(image, cv2.COLOR\_RGB2HLS),
+playing with S Channel only, as this has been giving the best output
+identifying lanes.
+
+Samples Images for Step 3 are show below.
+
+**4. Perspective Transform (Bird’s Eye View): **
+
+OpenCV’s utility cv2.getPerspectiveTransform has been used to achieve
+this step. Tricky portion here is to identify right source and target
+coordinates to achieve the desired result. I tried experimenting with
+many hard-coded values achieving desired results, however, this was not
+the ideal approach and had issues with different samples. Later, I used
+supplied logic from Rubrics to dynamically identify coordinates and that
+helped resolve this issue.
+
+Samples Images for Step 4 are show below.
+
+**5. Lane Finding:**
+
+Once we have Gradient Optimized & Perspective Transformed Image, we are
+ready to identify Lane’s in the given Image.
+
+We used histogram to identify peak i.e. left and right lanes, in lower
+half of the image. Once we have identified, left and right x,y
+coordinates, we use sliding window approach to progress identifying set
+of left and right adjacent windows, giving us pixel positions defining
+left and right windows with encapsulating lane x,y indices/coordinates
+for each lane.\
+Samples Images for Step 5 are show below.
+
+**6. Ploy-fit:**
+
+Indices from ‘Lane Finding’ are used to poly-fit (numpy) which in-turn
+help identify coefficients for polynomial which are best fit (in least
+squared sense). This step gives us relevant plot area, or on other words
+safe-zone to have car be driven.
+
+Samples Images for Step 6 are show below.
+
+**7. Lane Curvature:**
+
+Identified lane-zone are in pixels space, we need to apply the
+real-world space – with assumption of lane as 30 meters long and 3.7
+meters wide for this project, we can derive lane curvatures using numpy
+poly-fit factoring real-world space adjustments.
+
+Samples Images for Step 7 are show below.
+
+**8. Visualization:**
+
+At this stage, we have image transformed, lane-zone identified and
+lane-curvatures identified with real-world spacing, as last stretch, we
+will generate masked layers plotting lanes, lane-zone, and curvature
+information and blend it over original image. It is crucial to remember
+at this stage to apply inverse of perspective transform to have the
+output be a good match.
+
+I specifically differentiated lanes from lane-zone to better visual
+clarity.
+
+**Testing Helper Functions:**
+
+I attempted to capture output of each stage, such that I can minutely
+understand if each helper function with subsequent kernel, threshold
+values are giving us desired output prior running it on test-images.
+
+**Results of tests as below:**
+
+![output\_images/output\_12\_2.png](media/image4.png){width="6.4944444444444445in"
+height="3.1125in"}
+
+**Pipeline: **
+
+At this stage, all the results look very promising – so I defined
+pipeline combing all above steps in mentioned sequence to process one
+image as input.
+
+Cell 59 in code file demonstrates the same.
+
+**Run Pipeline on Test Images:**
+
+Nothing special here, we just enumerate all samples images with
+different scenarios being addressed and process them one by one. Results
+as shown below.
+
+![output\_images/output\_14\_1.png](media/image5.png){width="5.247222222222222in"
+height="3.1013888888888888in"}![output\_images/output\_14\_2.png](media/image6.png){width="5.247222222222222in"
+height="3.1013888888888888in"}![output\_images/output\_14\_3.png](media/image7.png){width="5.247222222222222in"
+height="3.1013888888888888in"}![output\_images/output\_14\_4.png](media/image8.png){width="5.247222222222222in"
+height="3.1013888888888888in"}![output\_images/output\_14\_5.png](media/image9.png){width="5.247222222222222in"
+height="3.1013888888888888in"}![output\_images/output\_14\_6.png](media/image10.png){width="5.247222222222222in"
+height="3.1013888888888888in"}
+
+**Run Pipeline on Project & Challenge Videos:**
+
+**Project Video:** Project video ran smooth at first go itself, there
+was minor line jump in only one frame, otherwise it was relatively on
+part with expectations.
+
+**Challenge Video:** There are many tricky challenges here, I have not
+yet completed this challenge, however, my thought process is to crop
+area of interest and applying smoothing i.e. leveraging last ‘n’ frames
+of video should help get better result.
+
+**Hard-Challenge Video:** I have not attempted this yet, results of
+challenge video will dictate further course of action.
 
 
-In this project, your goal is to write a software pipeline to identify the lane boundaries in a video, but the main output or product we want you to create is a detailed writeup of the project.  Check out the [writeup template](https://github.com/udacity/CarND-Advanced-Lane-Lines/blob/master/writeup_template.md) for this project and use it as a starting point for creating your own writeup.  
-
-Creating a great writeup:
----
-A great writeup should include the rubric points as well as your description of how you addressed each point.  You should include a detailed description of the code used in each step (with line-number references and code snippets where necessary), and links to other supporting documents or external references.  You should include images in your writeup to demonstrate how your code works with examples.  
-
-All that said, please be concise!  We're not looking for you to write a book here, just a brief description of how you passed each rubric point, and references to the relevant code :). 
-
-You're not required to use markdown for your writeup.  If you use another method please just submit a pdf of your writeup.
-
-The Project
----
-
-The goals / steps of this project are the following:
-
-* Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
-* Apply a distortion correction to raw images.
-* Use color transforms, gradients, etc., to create a thresholded binary image.
-* Apply a perspective transform to rectify binary image ("birds-eye view").
-* Detect lane pixels and fit to find the lane boundary.
-* Determine the curvature of the lane and vehicle position with respect to center.
-* Warp the detected lane boundaries back onto the original image.
-* Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
-
-The images for camera calibration are stored in the folder called `camera_cal`.  The images in `test_images` are for testing your pipeline on single frames.  If you want to extract more test images from the videos, you can simply use an image writing method like `cv2.imwrite()`, i.e., you can read the video in frame by frame as usual, and for frames you want to save for later you can write to an image file.  
-
-To help the reviewer examine your work, please save examples of the output from each stage of your pipeline in the folder called `ouput_images`, and include a description in your writeup for the project of what each image shows.    The video called `project_video.mp4` is the video your pipeline should work well on.  
-
-The `challenge_video.mp4` video is an extra (and optional) challenge for you if you want to test your pipeline under somewhat trickier conditions.  The `harder_challenge.mp4` video is another optional challenge and is brutal!
-
-If you're feeling ambitious (again, totally optional though), don't stop there!  We encourage you to go out and take video of your own, calibrate your camera and show us how you would implement this project from scratch!
-# CarND-Advanced-Lane-Lines
