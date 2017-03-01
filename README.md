@@ -36,7 +36,7 @@ I wrote all the steps articulated below as helper functions in Cell
 functions, I created pipeline which will be further used for
 processing videos and test images.
 
-**1. Camera Calibration: **
+**1. Camera Calibration:**
 
 The code for this step is contained in the Cell 1 & 2 of code file
 “Advance Lane Detection.ipynb”
@@ -56,19 +56,17 @@ detection.
 Sample of corner’s detection as demonstrated below:
 ![alt tag](output_images/output_5_0.png)
 
-**2. Distortion Correction: **
+**2. Distortion Correction:**
 
 I then used the output objpoints and imgpoints to compute the camera
 calibration and distortion coefficients using the cv2.calibrateCamera()
 function. I applied this distortion correction to the test image using
 the cv2.undistort() function and obtained this result:
 
-This result is show in Cell \#: 64
+This result is show in Cell#: 64
+![alt tag](output_images/output_11_1.png)
 
-![output\_images/output\_11\_1.png](media/image3.png){width="6.4944444444444445in"
-height="1.8763888888888889in"}
-
-**3. Gradient (Sobel, Magnitude & Directional): **
+**3. Gradient (Sobel, Magnitude & Directional):**
 
 Instead of applying Canny Edge detection, we will rather make use of
 Sobel Function to be applied separately on X, Y Orientations, further
@@ -152,9 +150,7 @@ understand if each helper function with subsequent kernel, threshold
 values are giving us desired output prior running it on test-images.
 
 **Results of tests as below:**
-
-![output\_images/output\_12\_2.png](media/image4.png){width="6.4944444444444445in"
-height="3.1125in"}
+![alt tag](output_images/output_12_2.png)
 
 **Pipeline: **
 
@@ -169,14 +165,12 @@ Cell 59 in code file demonstrates the same.
 Nothing special here, we just enumerate all samples images with
 different scenarios being addressed and process them one by one. Results
 as shown below.
-
-![output\_images/output\_14\_1.png](media/image5.png){width="5.247222222222222in"
-height="3.1013888888888888in"}![output\_images/output\_14\_2.png](media/image6.png){width="5.247222222222222in"
-height="3.1013888888888888in"}![output\_images/output\_14\_3.png](media/image7.png){width="5.247222222222222in"
-height="3.1013888888888888in"}![output\_images/output\_14\_4.png](media/image8.png){width="5.247222222222222in"
-height="3.1013888888888888in"}![output\_images/output\_14\_5.png](media/image9.png){width="5.247222222222222in"
-height="3.1013888888888888in"}![output\_images/output\_14\_6.png](media/image10.png){width="5.247222222222222in"
-height="3.1013888888888888in"}
+![alt tag](output_images/output_14_1.png)
+![alt tag](output_images/output_14_2.png)
+![alt tag](output_images/output_14_3.png)
+![alt tag](output_images/output_14_4.png)
+![alt tag](output_images/output_14_5.png)
+![alt tag](output_images/output_14_6.png)
 
 **Run Pipeline on Project & Challenge Videos:**
 
@@ -191,5 +185,3 @@ of video should help get better result.
 
 **Hard-Challenge Video:** I have not attempted this yet, results of
 challenge video will dictate further course of action.
-
-
