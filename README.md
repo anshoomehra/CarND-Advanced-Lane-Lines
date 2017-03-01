@@ -29,12 +29,14 @@ outline of steps which are required to be performed.
 
 9.  Test Pipeline on Test Images & Videos.
 
+
 **Detailed Solution:**
 
 I wrote all the steps articulated below as helper functions in Cell
 58, code file “Advance Lane Detection.ipynb”. Post defining helper
 functions, I created pipeline which will be further used for
 processing videos and test images.
+
 
 **1. Camera Calibration:**
 
@@ -54,7 +56,9 @@ the corners in the image plane with each successful chessboard
 detection.
 
 Sample of corner’s detection as demonstrated below:
+
 ![alt tag](output_images/output_5_0.png)
+
 
 **2. Distortion Correction:**
 
@@ -64,7 +68,9 @@ function. I applied this distortion correction to the test image using
 the cv2.undistort() function and obtained this result:
 
 This result is show in Cell#: 64
+
 ![alt tag](output_images/output_11_1.png)
+
 
 **3. Gradient (Sobel, Magnitude & Directional):**
 
@@ -88,7 +94,8 @@ identifying lanes.
 
 Samples Images for Step 3 are show below.
 
-**4. Perspective Transform (Bird’s Eye View): **
+
+**4. Perspective Transform (Bird’s Eye View):**
 
 OpenCV’s utility cv2.getPerspectiveTransform has been used to achieve
 this step. Tricky portion here is to identify right source and target
@@ -100,6 +107,7 @@ helped resolve this issue.
 
 Samples Images for Step 4 are show below.
 
+
 **5. Lane Finding:**
 
 Once we have Gradient Optimized & Perspective Transformed Image, we are
@@ -110,8 +118,10 @@ half of the image. Once we have identified, left and right x,y
 coordinates, we use sliding window approach to progress identifying set
 of left and right adjacent windows, giving us pixel positions defining
 left and right windows with encapsulating lane x,y indices/coordinates
-for each lane.\
+for each lane.
+
 Samples Images for Step 5 are show below.
+
 
 **6. Ploy-fit:**
 
@@ -122,6 +132,7 @@ safe-zone to have car be driven.
 
 Samples Images for Step 6 are show below.
 
+
 **7. Lane Curvature:**
 
 Identified lane-zone are in pixels space, we need to apply the
@@ -130,6 +141,7 @@ meters wide for this project, we can derive lane curvatures using numpy
 poly-fit factoring real-world space adjustments.
 
 Samples Images for Step 7 are show below.
+
 
 **8. Visualization:**
 
@@ -143,6 +155,7 @@ output be a good match.
 I specifically differentiated lanes from lane-zone to better visual
 clarity.
 
+
 **Testing Helper Functions:**
 
 I attempted to capture output of each stage, such that I can minutely
@@ -150,9 +163,11 @@ understand if each helper function with subsequent kernel, threshold
 values are giving us desired output prior running it on test-images.
 
 **Results of tests as below:**
+
 ![alt tag](output_images/output_12_2.png)
 
-**Pipeline: **
+
+**Pipeline:**
 
 At this stage, all the results look very promising – so I defined
 pipeline combing all above steps in mentioned sequence to process one
@@ -160,11 +175,14 @@ image as input.
 
 Cell 59 in code file demonstrates the same.
 
+
 **Run Pipeline on Test Images:**
 
 Nothing special here, we just enumerate all samples images with
-different scenarios being addressed and process them one by one. Results
+different scenarios being addressed and process them one by one. Results 
 as shown below.
+
+
 ![alt tag](output_images/output_14_1.png)
 ![alt tag](output_images/output_14_2.png)
 ![alt tag](output_images/output_14_3.png)
@@ -172,16 +190,20 @@ as shown below.
 ![alt tag](output_images/output_14_5.png)
 ![alt tag](output_images/output_14_6.png)
 
+
+
 **Run Pipeline on Project & Challenge Videos:**
 
 **Project Video:** Project video ran smooth at first go itself, there
 was minor line jump in only one frame, otherwise it was relatively on
 part with expectations.
 
+
 **Challenge Video:** There are many tricky challenges here, I have not
 yet completed this challenge, however, my thought process is to crop
 area of interest and applying smoothing i.e. leveraging last ‘n’ frames
 of video should help get better result.
+
 
 **Hard-Challenge Video:** I have not attempted this yet, results of
 challenge video will dictate further course of action.
