@@ -1,4 +1,4 @@
-#Advance Lane Detection
+#Advanced Lane Detection
 
 ##Objective:
 
