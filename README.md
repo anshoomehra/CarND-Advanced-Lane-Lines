@@ -31,32 +31,30 @@ outline of steps which are required to be performed.
 
 **Detailed Solution:**
 
-> I wrote all the steps articulated below as helper functions in Cell
-> 58, code file “Advance Lane Detection.ipynb”. Post defining helper
-> functions, I created pipeline which will be further used for
-> processing videos and test images.
+I wrote all the steps articulated below as helper functions in Cell
+58, code file “Advance Lane Detection.ipynb”. Post defining helper
+functions, I created pipeline which will be further used for
+processing videos and test images.
 
 **1. Camera Calibration: **
 
-> The code for this step is contained in the Cell 1 & 2 of code file
-> “Advance Lane Detection.ipynb”
->
-> I start by preparing "object points", which will be the (x, y, z)
-> coordinates of the chessboard corners in the world. Here I am assuming
-> the chessboard is fixed on the (x, y) plane at z=0, such that the
-> object points are the same for each calibration image. Thus, objp is
-> just a replicated array of coordinates, and objpoints will be appended
-> with a copy of it every time I successfully detect all chessboard
-> corners in a test image.
->
-> imgpoints will be appended with the (x, y) pixel position of each of
-> the corners in the image plane with each successful chessboard
-> detection.
->
-> Sample of corner’s detection as demonstrated below:
-> ![output\_images/output\_5\_0.png](media/image1.png){width="6.4944444444444445in"
-> height="3.2694444444444444in"}![](media/image2.png){width="6.847222222222222in"
-> height="1.3888888888888888e-2in"}
+The code for this step is contained in the Cell 1 & 2 of code file
+“Advance Lane Detection.ipynb”
+
+I start by preparing "object points", which will be the (x, y, z)
+coordinates of the chessboard corners in the world. Here I am assuming
+the chessboard is fixed on the (x, y) plane at z=0, such that the
+object points are the same for each calibration image. Thus, objp is
+just a replicated array of coordinates, and objpoints will be appended
+with a copy of it every time I successfully detect all chessboard
+corners in a test image.
+
+imgpoints will be appended with the (x, y) pixel position of each of
+the corners in the image plane with each successful chessboard
+detection.
+
+Sample of corner’s detection as demonstrated below:
+![alt tag](output_images/output_5_0.png)
 
 **2. Distortion Correction: **
 
