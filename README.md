@@ -216,3 +216,12 @@ of video should help get better result.
 
 I have not attempted this yet, results of
 challenge video will dictate further course of action.
+
+##Summarizing Challenges Faced During Project
+1. Perspective Transform: It was bit challenging & fun at the same time to understand perspective transformation. The whole idea to transform to birds eye view & later inverse to overlay lane information was pretty neat. Nonetheless, struggle was worth it, I had bit better understanding of image transformation end of the day.
+
+2. Sliding Window: Quite verbose section of the whole project, small changes like diffrentiating lane lines & lane zone to define different color for lane lines vs lane zone was bit tricky, I end up re-writing the whole code over again just to understand it little better, even though sampe code was given. 
+
+3. Frame Jumping: On the Project Video, there was just one frame where lane zone jump leftwards, it was bit tricky to debug. 
+
+4. Challenge Video: Tons of outliers, got some good feedback on code review, shall try them to see if they help resolve the issue.
