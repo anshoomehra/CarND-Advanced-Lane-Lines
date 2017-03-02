@@ -225,3 +225,5 @@ challenge video will dictate further course of action.
 3. Frame Jumping: On the Project Video, there was just one frame where lane zone jump leftwards, it was bit tricky to debug. 
 
 4. Challenge Video: Tons of outliers, got some good feedback on code review, shall try them to see if they help resolve the issue.
+
+5. Adjusting between pixel space & real world space was something I almost missed, this is so key to produce right results.
