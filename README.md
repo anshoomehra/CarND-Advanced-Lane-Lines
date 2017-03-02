@@ -227,3 +227,5 @@ challenge video will dictate further course of action.
 4. Challenge Video: Tons of outliers, got some good feedback on code review, shall try them to see if they help resolve the issue.
 
 5. Adjusting between pixel space & real world space was something I almost missed, this is so key to produce right results.
+
+6. Potential Failures Points - Choosing right Threshold Values, Kernel Size, Perspective Transform.
